@@ -12,6 +12,7 @@ class Paddle{
         this.tag = tag;
         this.growTimerr = 0;
         this.laserTimer = 0;
+        this.shootTimer = 0;
         this.isLaser = false ;
 
         this.x = this.screen.width / 2 - (this.width / 2);
@@ -28,7 +29,7 @@ class Paddle{
              this.keyName = event.key;
 
              if(event.which === 32){
-                 this.keyName = '';
+                 this.keyName = 'spacebar';
              }
 
              console.log('key: ' + this.keyName);
@@ -71,6 +72,10 @@ class Paddle{
                     }
 
                     if(globalObj[i].type === 'laser'){
+                        if(this.isLaser){
+                            this.laserTimer = 0;
+                            console.log('laser timer reset');
+                        }
                         this.isLaser = true;
                     }
                     console.log('hit: ' + i);
@@ -92,6 +97,11 @@ class Paddle{
 
             if(this.keyName === 'spacebar'){
                 console.log('schiet');
+                if(this.shootTimer >= 10){
+                    addGameObject(this.x + (this.width / 2) - 5, this.y, 'laser');
+                    this.shootTimer = 0;
+                }
+                this.shootTimer++;
             }
 
             if(this.laserTimer === 500){
@@ -124,14 +134,6 @@ class Paddle{
         this.ctx.fillStyle = this.color;
         this.ctx.fill();
     }
-
-    /*isCollide(obj1, obj2) {
-        return(
-            obj1.getX() + obj1.width >= obj2.getX()) && (obj1.getX() <= obj2.getX()
-            &&
-            obj1.getY() + (obj1.height * -1 + obj1.height) <= obj2.getY() && obj1.getY() + (obj1.height * -1 + obj1.height) <= obj2.getY()
-        );
-    }*/
 
     isCollide(obj1, obj2) {
         return(

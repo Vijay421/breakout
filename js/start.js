@@ -72,5 +72,9 @@ function addGameObject(x = 0, y = 0, tag) {
         case 'paddle':
             globalObj[tag+count] = new Paddle(tag);
             break;
+
+        case 'laser':
+            globalObj[tag+count] = new Laser(x, y, 'laser'+count,'#34ff07');
+            break;
     }
 }

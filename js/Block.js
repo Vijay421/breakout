@@ -1,4 +1,4 @@
-class Block{//TEST2
+class Block{
 
     constructor(x , y ,tag){
         console.log(x ,y ,'block');
