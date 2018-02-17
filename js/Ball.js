@@ -7,7 +7,7 @@ class Ball{
 
         this.raduis = 10;
         this.color = 'orange';
-        this.speed = 2;
+        this.speed = 0.7;
         this.direction = 'down';
         this.turnX = 0;
         this.turnY = -3;
@@ -35,11 +35,11 @@ class Ball{
         }
 
         if(this.x <= 0){
-            this.turnX+= 1;
+            this.turnX+= 0.3;
         }
 
         if(this.x >= this.screen.width){
-            this.turnX-= 1;
+            this.turnX-= 0.3;
         }
 
         for(let i in globalObj){
@@ -50,8 +50,8 @@ class Ball{
                     this.direction = newDirection;
 
                     let turnAmount = this.turnOnCollide(globalObj[i], this);
-                    this.turnX = (turnAmount / 100) * 2.3;
-                    this.turnY = (this.turnY < 0)? -3:3 ;
+                    this.turnX = (turnAmount / 100) * 1.1;
+                    this.turnY = (this.turnY < 0)? -0.5:0.5 ;
 
                     if(i.includes('block')){
                         globalObj[i].life--;

@@ -1,7 +1,6 @@
 class Block{
 
     constructor(x , y ,tag){
-        console.log(x ,y ,'block');
         this.screen = document.getElementById("screen");
 
         this.ctx = this.screen.getContext("2d");
@@ -28,7 +27,11 @@ class Block{
 
             let rand = Math.random();
             if(rand * 10 > 5){
-                addGameObject(this.getX() + (this.width / 2), this.getY() + (this.height / 2), 'powerup:laser');
+                if(Math.random() * 10 > 5){
+                    addGameObject(this.getX() + (this.width / 2), this.getY() + (this.height / 2), 'powerup:laser');
+                }else{
+                    addGameObject(this.getX() + (this.width / 2), this.getY() + (this.height / 2), 'powerup:grow');
+                }
             }
             removeGameObject(this);
         }

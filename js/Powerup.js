@@ -8,7 +8,7 @@ class Powerup{
         this.width = 25;
         this.height = 25;
         this.color = color;
-        this.speed = 3;
+        this.speed = 0.4;
         this.tag = tag;
         this.type = type;
 
@@ -22,7 +22,7 @@ class Powerup{
     }
 
     update(){
-        this.down();
+        this.down(this.speed);
 
         if(this.y >= this.screen.height){
             removeGameObject(this);

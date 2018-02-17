@@ -8,8 +8,9 @@ class Paddle{
         this.width = 150;
         this.height = 25;
         this.color = 'red';
-        this.speed = 5;
+        this.speed = 1.5;
         this.tag = tag;
+
         this.growTimerr = 0;
         this.laserTimer = 0;
         this.shootTimer = 0;
@@ -86,9 +87,10 @@ class Paddle{
 
         if(this.width === 200){
             this.growTimerr++;
-            if(this.growTimerr === 500){
+            if(this.growTimerr === 1500){
                 this.shrink()
                 this.growTimerr = 0;
+                this.isLaser = false;
             }
         }
 
@@ -96,15 +98,22 @@ class Paddle{
             this.laserTimer++;
 
             if(this.keyName === 'spacebar'){
-                console.log('schiet');
-                if(this.shootTimer >= 10){
-                    addGameObject(this.x + (this.width / 2) - 5, this.y, 'laser');
+                console.log('shoot');
+                if(this.shootTimer >= 30){
+                    if(this.width === 200){
+                        addGameObject(this.x , this.y, 'laser');
+                        addGameObject(this.x + (this.width - 10), this.y, 'laser');
+                        addGameObject(this.x + ((this.width / 2) - 5), this.y, 'laser')
+                    }else{
+                        addGameObject(this.x + (this.width / 2) - 5, this.y, 'laser');
+                    }
+                    console.log('isLaser: ' + this.isLaser);
                     this.shootTimer = 0;
                 }
                 this.shootTimer++;
             }
 
-            if(this.laserTimer === 500){
+            if(this.laserTimer === 1500){
                 this.isLaser = false;
                 this.laserTimer = 0;
             }

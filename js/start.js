@@ -1,12 +1,27 @@
 var screen;
 var ctx;
 var globalObj = [];
+var clockSpeed = {speed:0};
 
 window.onload = function() {
     start();
 
     screen = document.getElementById("screen");
     ctx = this.screen.getContext("2d");
+
+
+    //voorbeeld module
+    var TestModule = (function(){
+        let Public = {};
+
+        Public.test = function (){
+            return 'test';
+        }
+
+        return Public;
+    })();
+
+    console.log(TestModule);
 };
 
 function start() {
@@ -33,7 +48,7 @@ function start() {
                 globalObj[i].update();
             }
         }
-    }, 10);
+    }, 0);
 }
 
 function removeGameObject(element) {
