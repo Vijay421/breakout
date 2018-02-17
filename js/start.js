@@ -1,7 +1,6 @@
 var screen;
 var ctx;
 var globalObj = [];
-var clockSpeed = {speed:0};
 
 window.onload = function() {
     start();
@@ -90,6 +89,10 @@ function addGameObject(x = 0, y = 0, tag) {
 
         case 'laser':
             globalObj[tag+count] = new Laser(x, y, 'laser'+count,'#34ff07');
+            break;
+
+        default:
+            console.log('game object: ' + i + ' doesn\'t exist');
             break;
     }
 }

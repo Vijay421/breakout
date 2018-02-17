@@ -24,30 +24,42 @@ class Paddle{
         this.ctx.fillStyle = this.color;
         this.ctx.fill();
 
-        this.keyName = 'empty';
+        this.keys = [];
+        this.keys['a'] = false;
+        this.keys['d'] = false;
+        this.keys['spacebar'] = false;
 
         document.addEventListener('keydown', (event) => {
-             this.keyName = event.key;
-
-             if(event.which === 32){
-                 this.keyName = 'spacebar';
-             }
-
-             console.log('key: ' + this.keyName);
+             this.setKey(event, true);
         });
 
         document.addEventListener('keyup', (event) => {
-            this.keyName = 'emtpy';
+            this.setKey(event, false);
         });
 
     }
 
+    setKey(event, bool){
+        for(let key in this.keys){
+            if(key === event.key){
+
+                this.keys[key] = bool;
+                //console.log('key ' + key + ': ' + (this.keys[key]));
+            }else if(event.which === 32){
+
+                this.keys['spacebar'] = bool;
+                //console.log('key spacebar: ' + (this.keys['spacebar']));
+            }
+        }
+    }
+
     update(){
-        switch (this.keyName){
-            case 'd':
+        switch(true){
+            case this.keys['d']:
                 this.move(this.speed, 'right');
                 break;
-            case 'a':
+
+            case this.keys['a']:
                 this.move(this.speed, 'left');
                 break;
 
@@ -97,8 +109,7 @@ class Paddle{
         if(this.isLaser){
             this.laserTimer++;
 
-            if(this.keyName === 'spacebar'){
-                console.log('shoot');
+            if(this.keys['spacebar']){
                 if(this.shootTimer >= 30){
                     if(this.width === 200){
                         addGameObject(this.x , this.y, 'laser');
@@ -159,5 +170,4 @@ class Paddle{
     getY(){
         return this.y;
     }
-
 }
