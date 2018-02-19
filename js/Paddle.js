@@ -19,11 +19,6 @@ class Paddle{
         this.x = this.screen.width / 2 - (this.width / 2);
         this.y = (this.screen.height - this.height) + -50;
 
-        this.ctx.beginPath();
-        this.ctx.rect(this.x , this.y, this.width, this.height);
-        this.ctx.fillStyle = this.color;
-        this.ctx.fill();
-
         this.keys = [];
         this.keys['a'] = false;
         this.keys['d'] = false;
@@ -37,6 +32,7 @@ class Paddle{
             this.setKey(event, false);
         });
 
+        this.draw();
     }
 
     setKey(event, bool){
@@ -44,11 +40,9 @@ class Paddle{
             if(key === event.key){
 
                 this.keys[key] = bool;
-                //console.log('key ' + key + ': ' + (this.keys[key]));
             }else if(event.which === 32){
 
                 this.keys['spacebar'] = bool;
-                //console.log('key spacebar: ' + (this.keys['spacebar']));
             }
         }
     }
@@ -64,7 +58,7 @@ class Paddle{
                 break;
 
             default:
-                this.idle();
+                this.draw();
                 break;
         }
 
@@ -75,8 +69,6 @@ class Paddle{
                 if(this.isCollide(this, globalObj[i])){
 
                     if(globalObj[i].type === 'grow'){
-                        console.log('delete: ' + i);
-
                         if(this.width === 150){
                             this.grow()
                         }else{
@@ -87,11 +79,9 @@ class Paddle{
                     if(globalObj[i].type === 'laser'){
                         if(this.isLaser){
                             this.laserTimer = 0;
-                            console.log('laser timer reset');
                         }
                         this.isLaser = true;
                     }
-                    console.log('hit: ' + i);
                     removeGameObject(globalObj[i]);
                 }
             }
@@ -111,20 +101,19 @@ class Paddle{
 
             if(this.keys['spacebar']){
                 if(this.shootTimer >= 30){
-                    if(this.width === 200){
+                    if(this.width >= 200){
                         addGameObject(this.x , this.y, 'laser');
                         addGameObject(this.x + (this.width - 10), this.y, 'laser');
                         addGameObject(this.x + ((this.width / 2) - 5), this.y, 'laser')
                     }else{
                         addGameObject(this.x + (this.width / 2) - 5, this.y, 'laser');
                     }
-                    console.log('isLaser: ' + this.isLaser);
                     this.shootTimer = 0;
                 }
                 this.shootTimer++;
             }
 
-            if(this.laserTimer === 1500){
+            if(this.laserTimer >= 2000){
                 this.isLaser = false;
                 this.laserTimer = 0;
             }
@@ -141,14 +130,10 @@ class Paddle{
 
     move(speed  = 1, side){
         this.x = (side === 'right') ? this.x+= speed : this.x-= speed;
-
-        this.ctx.beginPath();
-        this.ctx.rect(this.x , this.y, this.width, this.height);
-        this.ctx.fillStyle = this.color;
-        this.ctx.fill();
+        this.draw();
     }
 
-    idle(){
+    draw(){
         this.ctx.beginPath();
         this.ctx.rect(this.x , this.y, this.width, this.height);
         this.ctx.fillStyle = this.color;

@@ -15,10 +15,7 @@ class Powerup{
         this.x = x;
         this.y = y;
 
-        this.ctx.beginPath();
-        this.ctx.rect(this.x , this.y, this.width, this.height);
-        this.ctx.fillStyle = this.color;
-        this.ctx.fill();
+        this.draw();
     }
 
     update(){
@@ -31,7 +28,10 @@ class Powerup{
 
     down(step = 1){
         this.y+= step;
+        this.draw();
+    }
 
+    draw(){
         this.ctx.beginPath();
         this.ctx.rect(this.x , this.y, this.width, this.height);
         this.ctx.fillStyle = this.color;

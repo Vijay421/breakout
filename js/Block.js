@@ -14,10 +14,7 @@ class Block{
         this.x = x;
         this.y = y;
 
-        this.ctx.beginPath();
-        this.ctx.rect(this.x , this.y, this.width, this.height);
-        this.ctx.fillStyle = this.color;
-        this.ctx.fill();
+        this.idle();
     }
 
     update(){
@@ -25,8 +22,7 @@ class Block{
 
         if(this.life <= 0){
 
-            let rand = Math.random();
-            if(rand * 10 > 5){
+            if(Math.random() * 10 > 5){
                 if(Math.random() * 10 > 5){
                     addGameObject(this.getX() + (this.width / 2), this.getY() + (this.height / 2), 'powerup:laser');
                 }else{

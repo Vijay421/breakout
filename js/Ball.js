@@ -16,11 +16,10 @@ class Ball{
         this.x = this.screen.width / 2 - (this.raduis / 2);
         this.y = 225;
 
-        this.ctx.beginPath();
-        this.ctx.arc(this.x , this.y, this.raduis,0,2*Math.PI);
-        this.ctx.fillStyle = this.color;
-        this.ctx.fill();
+        this.colors = ['orange','#ff00a1','#213cd3','purple'];
+        this.color = this.colors[Math.floor(Math.random() * this.colors.length)];
 
+        this.draw();
     }
 
     update(){
@@ -97,7 +96,10 @@ class Ball{
             this.y-= step;
         }
         this.x+= this.turnX;
+        this.draw();
+    }
 
+    draw(){
         this.ctx.beginPath();
         this.ctx.arc(this.x, this.y, this.raduis,0,2*Math.PI);
         this.ctx.fillStyle = this.color;

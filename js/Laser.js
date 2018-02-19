@@ -14,16 +14,13 @@ class Laser{
         this.x = x;
         this.y = y;
 
-        this.ctx.beginPath();
-        this.ctx.rect(this.x , this.y, this.width, this.height);
-        this.ctx.fillStyle = this.color;
-        this.ctx.fill();
+        this.draw();
     }
 
     update(){
         this.up(this.speed);
 
-        if(this.y >= this.screen.height){
+        if(this.y <= 0){
             removeGameObject(this);
         }
 
@@ -43,7 +40,10 @@ class Laser{
 
     up(step = 1){
         this.y-= step;
+        this.draw();
+    }
 
+    draw(){
         this.ctx.beginPath();
         this.ctx.rect(this.x , this.y, this.width, this.height);
         this.ctx.fillStyle = this.color;
@@ -69,15 +69,11 @@ class Laser{
 
 
 //MODULDE **********************************************
-/*var Laser = (function(){
+ /*window.Laser = (function laser(){
     var Public = {};
-    var self = this;
+    var self = {};
 
-    Public.constructor = function(x, y, tag, color){
-        self.screen = document.getElementById("screen");
-
-        self.ctx = self.screen.getContext("2d");
-
+    Public.constructor = (function (x, y, tag, color) {
         self.width = 10;
         self.height = 25;
         self.color = color;
@@ -87,14 +83,15 @@ class Laser{
         self.x = x;
         self.y = y;
 
-        self.ctx.beginPath();
-        self.ctx.rect(self.x , self.y, self.width, self.height);
-        self.ctx.fillStyle = self.color;
-        self.ctx.fill();
-    }
+        self.gameScreen = window.gameScreen;
+        self.ctx = window.ctx;
+        console.log(self);
+    })();
+
+    _draw();
 
     Public.update =  function(){
-        self._up(self.speed);
+        _up(self.speed);
 
         if(self.y >= self.screen.height){
             removeGameObject(self);
@@ -103,7 +100,7 @@ class Laser{
         for(let i in globalObj){
 
             if(i.includes('block') && globalObj[i] !== null){
-                if(self._isCollide(globalObj[i], self)){
+                if(_isCollide(globalObj[i], self)){
 
                     if(i.includes('block')){
                         globalObj[i].life-= 0.5;
@@ -116,27 +113,34 @@ class Laser{
 
     function _up(step = 1){
         self.y-= step;
+        _draw();
+    }
 
+     function _draw(){
         self.ctx.beginPath();
-        self.ctx.rect(self.x , self.y, self.width, self.height);
-        self.ctx.fillStyle = self.color;
+        self.ctx.rect(this.x , this.y, this.width, this.height);
+        self.ctx.fillStyle = this.color;
         self.ctx.fill();
     }
 
     function _isCollide(obj1, obj2) {
         return(
-            obj1._getX() + obj1.width >= obj2._getX() && obj1._getX() <= obj2._getX()
+            obj1.getX() + obj1.width >= obj2.getX() && obj1.getX() <= obj2.getX()
             &&
-            obj1._getY() + obj1.height >= obj2._getY() && obj1._getY() <= obj2._getY()
+            obj1.getY() + obj1.height >= obj2.getY() && obj1.getY() <= obj2.getY()
         );
     }
 
-    function _getX(){
+    Public.getX = function(){
         return self.x;
     }
 
-    function _getY(){
+    Public.getY = function(){
         return self.y;
+    }
+
+    Public.new = function () {
+        return new laser;
     }
 
     return Public;

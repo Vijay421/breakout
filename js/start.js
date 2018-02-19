@@ -1,26 +1,30 @@
-var screen;
-var ctx;
 var globalObj = [];
+
+//voorbeeld module
+var TestModule = (function Module(){
+    var Public = {};
+    var self = this;
+
+    self.msg = 'private var';
+
+    Public.test = function (){
+        return self.msg;
+    }
+
+    Public.new = function () {
+        return new Module;
+    }
+
+    return Public;
+})();
+
+console.log(TestModule.new());
 
 window.onload = function() {
     start();
 
-    screen = document.getElementById("screen");
-    ctx = this.screen.getContext("2d");
-
-
-    //voorbeeld module
-    var TestModule = (function(){
-        let Public = {};
-
-        Public.test = function (){
-            return 'test';
-        }
-
-        return Public;
-    })();
-
-    console.log(TestModule);
+    window.gameScreen = document.getElementById("screen");
+    window.ctx = window.gameScreen.getContext("2d");
 };
 
 function start() {
@@ -40,7 +44,7 @@ function start() {
     console.log(globalObj['ball']);
 
     setInterval(function(){
-        ctx.clearRect(0, 0, screen.width, screen.height);
+        window.ctx.clearRect(0, 0, screen.width, screen.height);
 
         for(let i in globalObj){
             if(globalObj[i] !== null){
@@ -88,11 +92,24 @@ function addGameObject(x = 0, y = 0, tag) {
             break;
 
         case 'laser':
-            globalObj[tag+count] = new Laser(x, y, 'laser'+count,'#34ff07');
+            globalObj[tag+count] = new Laser(x, y, tag+count,'#34ff07');
+            //globalObj[tag+count] = window.Laser.new().constructor(x, y, 'laser'+count,'#34ff07');
+            break;
+
+        case 'ball':
+            globalObj[tag+count] = new Ball(tag+count);
             break;
 
         default:
-            console.log('game object: ' + i + ' doesn\'t exist');
+            console.log('game object: ' + tag + ' doesn\'t exist');
             break;
     }
+}
+
+function getGame() {
+    console.log(globalObj);
+}
+
+function filterNull(item) {
+    return item !== null;
 }
